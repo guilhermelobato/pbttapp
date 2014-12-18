@@ -38,6 +38,6 @@ insertOrUpdateNoticias = function(n) {
 // STARTUP
 ///////////////////////////////////////////////////////////////////////////////
 Meteor.startup(function () {
-//	fetchNoticias();
-//	setTimeout(fetchNoticias, triggerHappyGuard); // 1 minuto
+	fetchNoticias();
+	setTimeout(fetchNoticias, triggerHappyGuard); // 1 minuto
 });
