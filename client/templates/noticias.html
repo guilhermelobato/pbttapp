@@ -1,0 +1,27 @@
+<template name="noticias">
+	<!-- Make sure all your bars are the first things in your <body> -->
+	<header class="bar bar-nav">
+		{{#unless connected}}<span class="icon icon-info pull-right" id="connectionIndicator"></span>{{/unless}}
+		<a class="icon icon-left pull-left" href="/" id="a-left"></a>
+		<h1 class="title">{{olho}}</h1>
+	</header>
+
+	<!-- Block button in standard bar fixed below top bar -->
+	<div class="bar bar-standard bar-header-secondary">
+		<h6 id="pubTime">{{pubTime}}</h6>
+	</div>
+
+	<!-- Wrap all non-bar HTML in the .content div (this is actually what scrolls) -->
+	<div class="content">
+		{{> corpoDaNoticia}}
+	</div>
+</template>
+
+<template name="corpoDaNoticia">
+	<article>
+		<h2>{{titulo}}</h2>
+
+		{{{fixedHtml corpo}}}
+	</article>
+	<a href="{{externalLink anchor}}" class="btn btn-block">Acessar texto original no site</a>
+</template>
