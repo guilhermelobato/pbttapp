@@ -18,15 +18,15 @@
 	<!-- MENU -->
 	{{#if menuOpen}}
 	<nav class="bar bar-tab">
-		<a class="tab-item active" href="/noticias">
+		<a class="tab-item {{#if pathName '/noticias'}}active{{/if}}" href="/noticias">
 			<span class="icon icon-list"></span>
 			<span class="tab-label">Notícias</span>
 		</a>
-		<a class="tab-item" href="/eventos">
+		<a class="tab-item {{#if pathName '/eventos'}}active{{/if}}" href="/eventos">
 			<span class="icon icon-star"></span>
 			<span class="tab-label">Eventos</span>
 		</a>
-		<a class="tab-item" href="/sobre">
+		<a class="tab-item {{#if pathName '/sobre'}}active{{/if}}" href="/sobre">
 			<span class="icon icon-info"></span>
 			<span class="tab-label">Sobre</span>
 		</a>

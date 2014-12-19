@@ -14,6 +14,9 @@ disableMenu = function() {
 Template.registerHelper('menuOpen', function() {
 	return Session.get(MENU_KEY);
 });
+Template.registerHelper('pathName', function(name) {
+	return window.location.pathname === name;
+});
 Template.registerHelper('connected', function() {
 	if (Session.get(SHOW_CONNECTION_ISSUE_KEY)) {
 		return Meteor.status().connected;

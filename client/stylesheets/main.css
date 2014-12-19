@@ -1,7 +1,19 @@
 /* CSS declarations go here */
 
+a {
+    color: inherit !important;
+}
+
+a.active {
+    color: #428bca !important;
+}
+
 #connectionIndicator {
     color: #d9534f;
+}
+
+.azul {
+    color: #428bca !important;
 }
 
 .verde {
@@ -19,7 +31,7 @@
 }
 
 .table-view-cell {
-    padding: 11px 35px 11px 15px;
+    padding: 11px 35px 11px 15px !important;
 }
 
 /* NOTICIAS
@@ -63,7 +75,6 @@
 //////////////////////////////////////////////////////////////////////////////*/
 article {
     padding: 0 1%;
-    margin-top: 10px;
 }
 
 article img {
