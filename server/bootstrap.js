@@ -5,11 +5,14 @@ fetchNoticias = function() {
 	var url = 'http://www.paraibatotal.com.br/noticias/json';
 
 	if (lastFetchTimestamp && (new Date().getTime() - lastFetchTimestamp < triggerHappyGuard)) {
-		console.log('avoiding over-refreshing...');
+		Meteor._debug('avoiding over-refreshing...');
 		return;
 	}
 
-	HTTP.get(url, function (err, result) {
+	HTTP.getSync = Meteor.wrapAsync(HTTP.get.bind(HTTP, url));
+
+	try {
+		var result = HTTP.getSync();
 		var news = _.extend([], result.data.list);
 
 		news.forEach(function (el) {
@@ -17,8 +20,10 @@ fetchNoticias = function() {
 		});
 
 		lastFetchTimestamp = new Date().getTime();
-		console.log('fetched '+ news.length +' items from "'+url+'" ...');
-	});
+		Meteor._debug('fetched '+ news.length +' items from "'+url+'" ...');
+	} catch (e) {
+		Meteor._debug(e);
+	}
 }
 
 insertOrUpdateNoticias = function(n) {
