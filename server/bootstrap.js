@@ -22,7 +22,7 @@ fetchNoticias = function() {
 		lastFetchTimestamp = new Date().getTime();
 		Meteor._debug('fetched '+ news.length +' items from "'+url+'" ...');
 	} catch (e) {
-		Meteor._debug(e);
+		throw e;
 	}
 }
 
