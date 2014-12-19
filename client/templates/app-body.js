@@ -11,6 +11,12 @@ disableMenu = function() {
 
 // HELPERS
 ///////////////////////////////////////////////////////////////////////////////
+Template.registerHelper('isAndroid', function() {
+	return device ? false : device.platform === 'Android';
+});
+Template.registerHelper('isIos', function() {
+	return device ? false : device.platform === 'iOS';
+});
 Template.registerHelper('menuOpen', function() {
 	return Session.get(MENU_KEY);
 });
@@ -51,4 +57,5 @@ Meteor.startup(function () {
 
 
 //	document.addEventListener("menubutton", toggleMenu, false);
+	alert(device.platform);
 });
