@@ -1,27 +1,57 @@
 <template name="noticias">
 	<!-- Make sure all your bars are the first things in your <body> -->
 	<header class="bar bar-nav">
+		{{>aMenu}}
 		{{#unless connected}}<span class="icon icon-info pull-right" id="connectionIndicator"></span>{{/unless}}
-		<a class="icon icon-left pull-left" href="/" id="a-left"></a>
-		<h1 class="title">{{olho}}</h1>
+		<a class="icon icon-refresh pull-right" href="#" id="a-refresh"></a>
+		<h1 class="title">Notícias</h1>
 	</header>
 
-	<!-- Block button in standard bar fixed below top bar -->
+	<!-- Olny filtering for now...-->
 	<div class="bar bar-standard bar-header-secondary">
-		<h6 id="pubTime">{{pubTime}}</h6>
+		<form>
+			<input type="search" placeholder="Filtrar" value="{{filter}}" id="input-filter">
+		</form>
 	</div>
 
 	<!-- Wrap all non-bar HTML in the .content div (this is actually what scrolls) -->
 	<div class="content">
-		{{> corpoDaNoticia}}
+		<div id="RubberBandjs">
+			<div class="rband">
+				<span class="icon icon-down arrow"></span>
+				<span class="load">{{> spinner}}</span>
+				<h3 class="text"></h3>
+			</div>
+		</div>
+
+		{{> noticiasList}}
 	</div>
 </template>
 
-<template name="corpoDaNoticia">
-	<article>
-		<h2>{{titulo}}</h2>
+<template name="noticiasList">
+	{{#if noticias}}
+		<div class="card">
+			<ul class="table-view">
+				{{#each noticias}}
+				{{> noticiasItem}}
+				{{/each}}
+			</ul>
+		</div>
+	{{else}}
+		<span class="badge" id="sadface">:(</span>
+	{{/if}}
+</template>
 
-		{{{fixedHtml corpo}}}
-	</article>
-	<a href="{{externalLink anchor}}" class="btn btn-block">Acessar texto original no site</a>
+<template name="noticiasItem">
+	<li class="table-view-cell media">
+		<a href="/noticia/{{anchor}}" data-transition="fade">
+			<img class="media-object pull-left" src="{{thumbnailer thumb}}">
+			<div class="media-body">
+				<span class="badge badge-inverted verde"><strong>{{pubTime}}</strong></span>
+				<br style="clear: both" />
+				{{olho}}
+				<p>{{titulo}}</p>
+			</div>
+		</a>
+	</li>
 </template>

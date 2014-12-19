@@ -1,20 +1,17 @@
 <template name="appNotFound">
-	<!-- Make sure all your bars are the first things in your <body> -->
-	<header class="bar bar-nav">
-		<h1 class="title">404</h1>
-	</header>
+	<div class="content text-centered" style="padding: 10px">
 
-	<!-- Wrap all non-bar HTML in the .content div (this is actually what scrolls) -->
-	<div class="content">
+		<img id="logomarca" src="/images/logo.jpg"/>
+		<br/><br/>
 
-		<div id="pubTime">
+		<h1 class="verde">Eiiita!</h1>
+		<h4 class="verde">
+			A página que você procura<br/>
+			não pode ser encontrada.
+		</h4>
 
-			<br style="clear: both" />
-			<h4 >Página não encontrada</h4>
-			<span class="badge">:(</span>
-			<br style="clear: both" />
-			<br style="clear: both" />
-			<a href="/" class="btn">Voltar a Home</a>
-		</div>
+		<br/><br/>
+
+		{{> voltarParaPrincipal}}
 	</div>
 </template>

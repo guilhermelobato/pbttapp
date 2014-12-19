@@ -14,4 +14,26 @@
 	{{else}}
 		{{> yield}}
 	{{/unless}}
+
+	<!-- MENU -->
+	{{#if menuOpen}}
+	<nav class="bar bar-tab">
+		<a class="tab-item active" href="/noticias">
+			<span class="icon icon-list"></span>
+			<span class="tab-label">Notícias</span>
+		</a>
+		<a class="tab-item" href="/eventos">
+			<span class="icon icon-star"></span>
+			<span class="tab-label">Eventos</span>
+		</a>
+		<a class="tab-item" href="/sobre">
+			<span class="icon icon-info"></span>
+			<span class="tab-label">Sobre</span>
+		</a>
+		<!--<a class="tab-item" href="#">
+			<span class="icon icon-gear"></span>
+			<span class="tab-label">Configurações</span>
+		</a>-->
+	</nav>
+	{{/if}}
 </template>

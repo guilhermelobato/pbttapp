@@ -1,67 +1,77 @@
 
 // FUNCTIONS & VARS
 ///////////////////////////////////////////////////////////////////////////////
-baseUrl = "http://paraibatotal.com.br/noticias/";
+refreshCount = 0;
 
-function getTextNodesIn(node, includeWhitespaceNodes) {
-	var textNodes = [], whitespace = /^\s*$/;
+function refresh() {
+	if (lastFetchTimestamp && (new Date().getTime() - lastFetchTimestamp < triggerHappyGuard)) {
+		console.log('avoiding over-refreshing...');
+		refreshCount++;
 
-	function getTextNodes(node) {
-		if (node.nodeType == 3) {
-			if (includeWhitespaceNodes || !whitespace.test(node.nodeValue)) {
-				textNodes.push(node);
-			}
-		} else {
-			for (var i = 0, len = node.childNodes.length; i < len; ++i) {
-				getTextNodes(node.childNodes[i]);
-			}
+		if (refreshCount >= 10) {
+			alert('Recarregando...');
+			refreshCount = 0;
 		}
+
+		return;
 	}
 
-	getTextNodes(node);
-	return textNodes;
+	$.ajax({
+		type: "POST",
+		url: "/refresh",
+		cache: false
+	});
+
+	lastFetchTimestamp = new Date().getTime();
+	refreshCount = 0;
 }
 
-// NEWS
+// noticias
 ///////////////////////////////////////////////////////////////////////////////
+Template.noticias.rendered = function () {
+	RB = new RubberBand(function(e) {
+		refresh();
+		window.setTimeout(e.close, 1500);
+	});
+	Session.set('filter', '');
+};
 
-// CORPODANOTICIA
-///////////////////////////////////////////////////////////////////////////////
-Template.corpoDaNoticia.helpers({
-	externalLink: function (anchor) {
-		var now = new Date();
-		return baseUrl + now.getUTCFullYear() + "/" + (now.getMonth()+1) + "/" + now.getDate() + "/" + anchor;
+Template.noticias.events({
+	'touchstart div.content': function (e) {
+		disableMenu();
 	},
-	fixedHtml: function (html) {
-		if (!html) {
-			return '';
-		}
-		//FIX NA URL RELATIVA VINDA DO SITE
-		var fix = html;
-		fix = fix.replace("src=\"/","src=\"http://www.paraibatotal.com.br/");
-		fix = fix.replace("src=\"static/","src=\"http://www.paraibatotal.com.br/static/");
-		fix = fix.replace("href=\"/","href=\"http://www.paraibatotal.com.br/");
+	'click a#a-refresh': function (e) {
+		refresh();
+	}
+	,'keyup input#input-filter': function (e) {
+		Session.set('filter', e.target.value);
+	}
+});
 
-		fix = fix.replace("src='/","src='http://www.paraibatotal.com.br/");
-		fix = fix.replace("src='static/","src='http://www.paraibatotal.com.br/static/");
-		fix = fix.replace("href='/","href='http://www.paraibatotal.com.br/");
+// noticiasList
+///////////////////////////////////////////////////////////////////////////////
+Template.noticiasList.helpers({
+	noticias: function() {
+		var filter = Session.get('filter');
+		var qty = Session.get('qty');
+		var limit = qty ? qty : 25;
+		var sortAndLimit = {limit: limit, sort: {pubTime: -1}};
 
-		//ADICAO DA CLASSE THUMBNAIL E DO WRAPPER
-		fix = $("<div id='renderedCorpo'/>").html(fix);
-
-		//DESENCALACRANDO
-		//fix = fix[0].outerHTML;
-		textnodes = getTextNodesIn(fix[0]);
-
-		for(var i=0; i < textnodes.length; i++){
-			if($(textnodes[i]).parent().is("#renderedCorpo")){
-				$(textnodes[i]).wrap("<p>");
-			}
+		if (filter) {
+			var rxp = new RegExp(filter, 'i');
+			var aux = {$regex: rxp};
+			var query = {$or: [{titulo: aux},{olho: aux}]};
+			return groundedNoticias.find(query,sortAndLimit);
 		}
 
-		$(".anexo-img.FO",fix).addClass("media-object");
+		return groundedNoticias.find({},sortAndLimit);
+	}
+});
 
-		//RETORNO
-		return fix[0].outerHTML;
+// noticiasItem
+///////////////////////////////////////////////////////////////////////////////
+Template.noticiasItem.helpers({
+	thumbnailer: function (filename) {
+		return "http://paraibatotal.com.br/static/imagens/noticias/thumbs/" + filename;
 	}
 });
