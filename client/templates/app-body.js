@@ -1,5 +1,5 @@
 
-// HELPERS
+// FUNCTIONS
 ///////////////////////////////////////////////////////////////////////////////
 toggleMenu = function() {
 	Session.set(MENU_KEY, !Session.get(MENU_KEY));
@@ -48,4 +48,7 @@ Meteor.startup(function () {
 		// Show the connection error box
 		Session.set(SHOW_CONNECTION_ISSUE_KEY, true);
 	}, CONNECTION_ISSUE_TIMEOUT);
+
+
+//	document.addEventListener("menubutton", toggleMenu, false);
 });
