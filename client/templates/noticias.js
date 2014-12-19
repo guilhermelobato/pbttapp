@@ -72,6 +72,6 @@ Template.noticiasList.helpers({
 ///////////////////////////////////////////////////////////////////////////////
 Template.noticiasItem.helpers({
 	thumbnailer: function (filename) {
-		return "http://paraibatotal.com.br/static/imagens/noticias/thumbs/" + filename;
+		return filename ? "http://paraibatotal.com.br/static/imagens/noticias/thumbs/" + filename : "images/default.jpg";
 	}
 });
