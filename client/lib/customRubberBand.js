@@ -65,13 +65,13 @@
 				if($me.variables.e_height<0) {
 					// tension control for more of a natural feel
 					if($me.variables.e_height>=-10) {
-						diff = 3;
-					} else if($me.variables.e_height>=-20) {
-						diff = 4;
-					} else if($me.variables.e_height>=-50) {
 						diff = 5;
-					} else {
+					} else if($me.variables.e_height>=-20) {
 						diff = 6;
+					} else if($me.variables.e_height>=-50) {
+						diff = 7;
+					} else {
+						diff = 8;
 					}
 
 					// determine values and set css rules

@@ -2,8 +2,31 @@
 // FUNCTIONS & VARS
 ///////////////////////////////////////////////////////////////////////////////
 refreshCount = 0;
+degree = 0;
+$el = null; //INICIALIZADO NO refresh();
+MIN_ROTATION_ANIMATE_TIME = 1500;
+
+function stopRotate () {
+	clearTimeout(rotateTimer);
+	degree = 0;
+	rotate();
+}
+
+function rotate() {
+	$el.css({ WebkitTransform: 'rotate(' + degree + 'deg)'});  
+	$el.css({ '-moz-transform': 'rotate(' + degree + 'deg)'});
+}
+
+function chainRotate() {
+	rotate();
+	rotateTimer = setTimeout(function() {
+		degree+=3; chainRotate();
+	},5);
+}
 
 function refresh() {
+	$el = $("#a-refresh")
+	chainRotate();
 	if (lastFetchTimestamp && (new Date().getTime() - lastFetchTimestamp < triggerHappyGuard)) {
 		console.log('avoiding over-refreshing...');
 		refreshCount++;
@@ -13,13 +36,17 @@ function refresh() {
 			refreshCount = 0;
 		}
 
+		setTimeout(stopRotate, MIN_ROTATION_ANIMATE_TIME);
 		return;
 	}
 
 	$.ajax({
 		type: "POST",
 		url: "/refresh",
-		cache: false
+		cache: false,
+		complete: function() {
+			setTimeout(stopRotate, MIN_ROTATION_ANIMATE_TIME);
+		}
 	});
 
 	lastFetchTimestamp = new Date().getTime();
@@ -42,8 +69,8 @@ Template.noticias.events({
 	},
 	'click a#a-refresh': function (e) {
 		refresh();
-	}
-	,'keyup input#input-filter': function (e) {
+	},
+	'keyup input#input-filter': function (e) {
 		Session.set('filter', e.target.value);
 	}
 });
