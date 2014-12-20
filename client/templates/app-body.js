@@ -20,8 +20,8 @@ Template.registerHelper('isIos', function() {
 Template.registerHelper('menuOpen', function() {
 	return Session.get(MENU_KEY);
 });
-Template.registerHelper('pathName', function(name) {
-	return window.location.pathname === name;
+Template.registerHelper('pathnameEquals', function(name) {
+	return (Session.get('pathname') || window.location.pathname).split("#")[0] === name;
 });
 Template.registerHelper('connected', function() {
 	if (Session.get(SHOW_CONNECTION_ISSUE_KEY)) {
@@ -57,5 +57,12 @@ Meteor.startup(function () {
 
 
 //	document.addEventListener("menubutton", toggleMenu, false);
-	alert(device.platform);
 });
+
+// appBody
+///////////////////////////////////////////////////////////////////////////////
+Template.appBody.events({
+	'click nav.bar.bar-tab a': function(e) {
+		Session.set('pathname', $(e.currentTarget).attr("href"));
+	}
+})
