@@ -1,14 +1,7 @@
 <template name="appBody">
 	{{#unless connected}}
-		<header class="bar bar-nav">
-			<a class="icon icon-close pull-right" href="#notification"></a>
-			<h1 class="title">Verificando conexão</h1>
-		</header>
-
-		<div class="content">
-			<p class="content-padded">Parece que temos um probleminha de conexão. Aguarde...</p>
-			{{>spinner}}
-		</div>
+		<h4 class="title text-centered">Verificando conexão</h4>
+		<p class="text-centered">Parece que temos um probleminha de conexão. Aguarde...</p>
 	{{/unless}}
 
 	{{> yield}}
