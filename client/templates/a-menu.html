@@ -1,3 +1,4 @@
 <template name="aMenu">
 	<a class="icon icon-bars pull-left {{#if menuOpen}}active{{/if}}" id="a-menu"></a>
+	{{#unless connected}}<span class="icon icon-info pull-right" id="connectionIndicator"></span>{{/unless}}
 </template>
