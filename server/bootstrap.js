@@ -9,10 +9,7 @@ fetchNoticias = function() {
 		return;
 	}
 
-	HTTP.getSync = Meteor.wrapAsync(HTTP.get.bind(HTTP, url));
-
-	try {
-		var result = HTTP.getSync();
+	var bindedCB = Meteor.bindEnvironment(function(err, result) {
 		var news = _.extend([], result.data.list);
 
 		news.forEach(function (el) {
@@ -21,9 +18,9 @@ fetchNoticias = function() {
 
 		lastFetchTimestamp = new Date().getTime();
 		Meteor._debug('fetched '+ news.length +' items from "'+url+'" ...');
-	} catch (e) {
-		throw e;
-	}
+	}, function( error) {throw error});
+
+	HTTP.get(url, bindedCB);
 }
 
 insertOrUpdateNoticias = function(n) {
