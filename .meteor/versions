@@ -14,13 +14,13 @@ email@1.0.5
 fastclick@1.0.2
 follower-livedata@1.0.3
 geojson-utils@1.0.2
-ground:db@0.2.4
-ground:dictionary@0.1.2
+ground:db@0.3.0
+ground:dictionary@0.2.0
 ground:localstorage@0.1.7
-ground:minimax@1.0.2
+ground:minimax@1.1.0
 ground:servertime@0.0.3
 ground:store@0.1.1
-ground:util@0.1.7
+ground:util@0.1.9
 html-tools@1.0.3
 htmljs@1.0.3
 http@1.0.9
