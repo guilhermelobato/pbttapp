@@ -1,10 +1,15 @@
 
 // FUNCTIONS & VARS
 ///////////////////////////////////////////////////////////////////////////////
-refreshCount = 0;
-degree = 0;
-$el = null; //INICIALIZADO NO refresh();
-MIN_ROTATION_ANIMATE_TIME = 1500;
+var refreshCount = 0;
+
+var degree = 0;
+var $el = null; //INICIALIZADO NO refresh();
+var MIN_ROTATION_ANIMATE_TIME = 1500;
+
+var FILTER = 'filter';
+var QTY = 'qty';
+var SCROLLTOP = 'scrollTop';
 
 function stopRotate () {
 	clearTimeout(rotateTimer);
@@ -13,7 +18,7 @@ function stopRotate () {
 }
 
 function rotate() {
-	$el.css({ WebkitTransform: 'rotate(' + degree + 'deg)'});  
+	$el.css({ WebkitTransform: 'rotate(' + degree + 'deg)'});
 	$el.css({ '-moz-transform': 'rotate(' + degree + 'deg)'});
 }
 
@@ -53,6 +58,14 @@ function refresh() {
 	refreshCount = 0;
 }
 
+function setScrollTopHistory(y) {
+	Session.set(SCROLLTOP, y);
+}
+
+function getScrollTopHistory() {
+	return Session.get(SCROLLTOP);
+}
+
 // noticias
 ///////////////////////////////////////////////////////////////////////////////
 Template.noticias.rendered = function () {
@@ -60,7 +73,9 @@ Template.noticias.rendered = function () {
 		refresh();
 		window.setTimeout(e.close, 1500);
 	});
-	Session.set('filter', '');
+	Session.set(FILTER, '');
+	$(".content").scrollTop(getScrollTopHistory());
+	setScrollTopHistory(0);
 };
 
 Template.noticias.events({
@@ -71,7 +86,7 @@ Template.noticias.events({
 		refresh();
 	},
 	'keyup input#input-filter': function (e) {
-		Session.set('filter', e.target.value);
+		Session.set(FILTER, e.target.value);
 	}
 });
 
@@ -79,8 +94,8 @@ Template.noticias.events({
 ///////////////////////////////////////////////////////////////////////////////
 Template.noticiasList.helpers({
 	noticias: function() {
-		var filter = Session.get('filter');
-		var qty = Session.get('qty');
+		var filter = Session.get(FILTER);
+		var qty = Session.get(QTY);
 		var limit = qty ? qty : 25;
 		var sortAndLimit = {limit: limit, sort: {pubTime: -1}};
 
@@ -92,6 +107,12 @@ Template.noticiasList.helpers({
 		}
 
 		return groundedNoticias.find({},sortAndLimit);
+	}
+});
+
+Template.noticiasList.events({
+	'click a': function (e) {
+		setScrollTopHistory($(".content").scrollTop());
 	}
 });
 
