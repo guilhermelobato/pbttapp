@@ -31,14 +31,11 @@ Template.registerHelper('connected', function() {
 	}
 });
 
-//GLOBAL FOR INTEROPERABILITY
-MENU_KEY = 'menuOpen';
-Session.setDefault(MENU_KEY, false);
-
 var SHOW_CONNECTION_ISSUE_KEY = 'showConnectionIssue';
-Session.setDefault(SHOW_CONNECTION_ISSUE_KEY, false);
-
 var CONNECTION_ISSUE_TIMEOUT = 5000;
+
+Session.setDefault(MENU_KEY, false);
+Session.setDefault(SHOW_CONNECTION_ISSUE_KEY, false);
 
 // STARTUP
 ///////////////////////////////////////////////////////////////////////////////

@@ -11,6 +11,27 @@ var FILTER = 'filter';
 var QTY = 'qty';
 var SCROLLTOP = 'scrollTop';
 
+Session.setDefault(NOTICIAS_CURRENT_PAGE, 1);
+Session.setDefault(NOTICIAS_PAGINATING, false);
+
+Tracker.autorun(function() {
+	var onReady = function() {
+		Session.set(NOTICIAS_PAGINATING, false)
+	};
+
+	Meteor.subscribe('noticiasPublicadas', Session.get(NOTICIAS_CURRENT_PAGE), onReady);
+});
+
+function paginate() {
+	var page = Session.get(NOTICIAS_CURRENT_PAGE);
+	var next = (page || 1) + 1;
+
+	if (next <= noticiasMaxPages) {
+		Session.set(NOTICIAS_PAGINATING, true);
+		Session.set(NOTICIAS_CURRENT_PAGE, next);
+	}
+}
+
 function stopRotate () {
 	clearTimeout(rotateTimer);
 	degree = 0;
@@ -76,6 +97,26 @@ Template.noticias.rendered = function () {
 	Session.set(FILTER, '');
 	$(".content").scrollTop(getScrollTopHistory());
 	setScrollTopHistory(0);
+
+
+	//CHECAR PAGINACAO
+	content = $(".content"), card = content.find(".card"),  didScroll = false;
+
+	content.scroll(function() {
+		didScroll = true;
+	});
+
+	setInterval(function() {
+		if ( didScroll ) {
+			didScroll = false;
+
+			// Check your page position and then
+			// Load in more results
+			if (content.scrollTop() >= card.height() - content.height() - 10) {
+				paginate();
+			}
+		}
+	}, 250);
 };
 
 Template.noticias.events({
@@ -107,6 +148,12 @@ Template.noticiasList.helpers({
 		}
 
 		return groundedNoticias.find({},sortAndLimit);
+	},
+	paginating: function() {
+		return Session.get(NOTICIAS_PAGINATING);
+	},
+	maxPagesReached: function() {
+		return Session.get(NOTICIAS_CURRENT_PAGE) == noticiasMaxPages;
 	}
 });
 

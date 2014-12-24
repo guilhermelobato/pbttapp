@@ -32,8 +32,18 @@
 		<div class="card">
 			<ul class="table-view">
 				{{#each noticias}}
-				{{> noticiasItem}}
+					{{> noticiasItem}}
 				{{/each}}
+				{{#if paginating}}
+				<li id="paginating" class="table-view-cell media">
+					<p class="media-body text-centered">carregando...</p>
+				</li>
+				{{/if}}
+				{{#if maxPagesReached}}
+				<li id="maxPagesReached" class="table-view-cell media">
+					<p class="media-body text-centered">número máximo de notícias atingido</p>
+				</li>
+				{{/if}}
 			</ul>
 		</div>
 	{{else}}
