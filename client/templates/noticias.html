@@ -2,7 +2,6 @@
 	<!-- Make sure all your bars are the first things in your <body> -->
 	<header class="bar bar-nav">
 		{{>aMenu}}
-		{{#unless connected}}<span class="icon icon-info pull-right" id="connectionIndicator"></span>{{/unless}}
 		<a class="icon icon-refresh pull-right" href="#" id="a-refresh"></a>
 		<h1 class="title">Notícias</h1>
 	</header>
@@ -33,8 +32,18 @@
 		<div class="card">
 			<ul class="table-view">
 				{{#each noticias}}
-				{{> noticiasItem}}
+					{{> noticiasItem}}
 				{{/each}}
+				{{#if paginating}}
+				<li id="paginating" class="table-view-cell media">
+					<p class="media-body text-centered">carregando...</p>
+				</li>
+				{{/if}}
+				{{#if maxPagesReached}}
+				<li id="maxPagesReached" class="table-view-cell media">
+					<p class="media-body text-centered">número máximo de notícias atingido</p>
+				</li>
+				{{/if}}
 			</ul>
 		</div>
 	{{else}}

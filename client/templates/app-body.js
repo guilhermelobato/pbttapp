@@ -11,11 +11,17 @@ disableMenu = function() {
 
 // HELPERS
 ///////////////////////////////////////////////////////////////////////////////
+Template.registerHelper('isAndroid', function() {
+	return device ? false : device.platform === 'Android';
+});
+Template.registerHelper('isIos', function() {
+	return device ? false : device.platform === 'iOS';
+});
 Template.registerHelper('menuOpen', function() {
 	return Session.get(MENU_KEY);
 });
-Template.registerHelper('pathName', function(name) {
-	return window.location.pathname === name;
+Template.registerHelper('pathnameEquals', function(name) {
+	return (Session.get('pathname') || window.location.pathname).split("#")[0] === name;
 });
 Template.registerHelper('connected', function() {
 	if (Session.get(SHOW_CONNECTION_ISSUE_KEY)) {
@@ -25,14 +31,11 @@ Template.registerHelper('connected', function() {
 	}
 });
 
-//GLOBAL FOR INTEROPERABILITY
-MENU_KEY = 'menuOpen';
-Session.setDefault(MENU_KEY, false);
-
 var SHOW_CONNECTION_ISSUE_KEY = 'showConnectionIssue';
-Session.setDefault(SHOW_CONNECTION_ISSUE_KEY, false);
-
 var CONNECTION_ISSUE_TIMEOUT = 5000;
+
+Session.setDefault(MENU_KEY, false);
+Session.setDefault(SHOW_CONNECTION_ISSUE_KEY, false);
 
 // STARTUP
 ///////////////////////////////////////////////////////////////////////////////
@@ -52,3 +55,11 @@ Meteor.startup(function () {
 
 //	document.addEventListener("menubutton", toggleMenu, false);
 });
+
+// appBody
+///////////////////////////////////////////////////////////////////////////////
+Template.appBody.events({
+	'click nav.bar.bar-tab a': function(e) {
+		Session.set('pathname', $(e.currentTarget).attr("href"));
+	}
+})

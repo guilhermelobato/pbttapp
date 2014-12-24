@@ -1,32 +1,23 @@
 <template name="appBody">
 	{{#unless connected}}
-		<div id="notification" class="modal">
-			<header class="bar bar-nav">
-				<a class="icon icon-close pull-right" href="#notification"></a>
-				<h1 class="title">Verificando conexão</h1>
-			</header>
-
-			<div class="content">
-				<p class="content-padded">Parece que temos um probleminha de conexão. Aguarde...</p>
-				{{>spinner}}
-			</div>
-		</div>
-	{{else}}
-		{{> yield}}
+		<h4 class="text-centered">Verificando conexão</h4>
+		<p class="text-centered">Parece que temos um probleminha de conexão. Aguarde...</p>
 	{{/unless}}
+
+	{{> yield}}
 
 	<!-- MENU -->
 	{{#if menuOpen}}
 	<nav class="bar bar-tab">
-		<a class="tab-item {{#if pathName '/noticias'}}active{{/if}}" href="/noticias">
+		<a class="tab-item {{#if pathnameEquals '/noticias'}}active{{/if}}" href="/noticias">
 			<span class="icon icon-list"></span>
 			<span class="tab-label">Notícias</span>
 		</a>
-		<a class="tab-item {{#if pathName '/eventos'}}active{{/if}}" href="/eventos">
+		<a class="tab-item {{#if pathnameEquals '/eventos'}}active{{/if}}" href="/eventos">
 			<span class="icon icon-star"></span>
 			<span class="tab-label">Eventos</span>
 		</a>
-		<a class="tab-item {{#if pathName '/sobre'}}active{{/if}}" href="/sobre">
+		<a class="tab-item {{#if pathnameEquals '/sobre'}}active{{/if}}" href="/sobre">
 			<span class="icon icon-info"></span>
 			<span class="tab-label">Sobre</span>
 		</a>

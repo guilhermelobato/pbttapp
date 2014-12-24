@@ -5,7 +5,7 @@ App.info({
 	author: 'Tiago Oliveira',
 	email: 'tiago@integrativa.com.br',
 	website: 'http://integrativa.com.br',
-	version: '0.0.1'
+	version: '0.0.2'
 });
 
 App.icons({

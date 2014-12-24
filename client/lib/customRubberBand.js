@@ -65,13 +65,13 @@
 				if($me.variables.e_height<0) {
 					// tension control for more of a natural feel
 					if($me.variables.e_height>=-10) {
-						diff = 3;
-					} else if($me.variables.e_height>=-20) {
-						diff = 4;
-					} else if($me.variables.e_height>=-50) {
 						diff = 5;
-					} else {
+					} else if($me.variables.e_height>=-20) {
 						diff = 6;
+					} else if($me.variables.e_height>=-50) {
+						diff = 7;
+					} else {
+						diff = 8;
 					}
 
 					// determine values and set css rules
@@ -125,10 +125,10 @@
 		// animates the band to the original closed state
 		this.close = function() {
 			// fire both animations
-			$me.variables.$RBe.animate({ top: $me.variables.original_top }, 200);
+			$me.variables.$RBe.animate({ top: $me.variables.original_top }, 150);
 
 			// reset after the animation has completed
-			$me.variables.$RBcontainer.animate({ paddingTop: $me.variables.offset }, 200, function() {
+			$me.variables.$RBcontainer.animate({ paddingTop: $me.variables.offset }, 150, function() {
 				$me.variables.$RBcontainer.on("scroll touchmove", $me.RB);
 
 				$me.variables.e_height = $me.variables.original_top;
