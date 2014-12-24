@@ -6,5 +6,5 @@ Meteor.publish('noticiasPublicadas', function(page) {
 	page = page || 1;
 
 	var p = page < noticiasMaxPages ? page : noticiasMaxPages;
-	return Noticias.find({}, {limit: p * noticiasItemsPerPage});
+	return Noticias.find({}, {limit: p * noticiasItemsPerPage, sort: {pubTime: -1}});
 });
